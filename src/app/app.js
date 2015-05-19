@@ -35,29 +35,31 @@ var app = angular.module('portfolio', [
     $scope.atBeginning = true;
     $scope.atEnd = false;
 
+    $(".loading-icon.start-complete").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd',
+        function() {
+            alert('gasdfasdf');
+        });
+
     $scope.changeIndex = function(direction) {
         var index = $scope.index;
         if ((direction == "right") && ($scope.index !== $scope.projects.length)) {
             $scope.index = $scope.index + 1;
-        }
-        else if ((direction == "left") && ($scope.index != 1)) {
+        } else if ((direction == "left") && ($scope.index != 1)) {
             $scope.index = $scope.index - 1;
         }
-        checkIndex();
+        checkForBeginningOrEnd();
         //$scope.direction = direction;
     };
 
-    var checkIndex = function () {
+    var checkForBeginningOrEnd = function() {
         if ($scope.index == 1) {
             $scope.atBeginning = true;
-        }
-        else {
+        } else {
             $scope.atBeginning = false;
         }
-        if ($scope.index == $scope.projects.length)  {
+        if ($scope.index == $scope.projects.length) {
             $scope.atEnd = true;
-        }
-        else {
+        } else {
             $scope.atEnd = false;
         }
     };
@@ -69,12 +71,17 @@ var app = angular.module('portfolio', [
         $scope.urlToLoad = 'assets/img/' + imageToLoad + '.jpg';
     };
 
-    $scope.backToTop = function () {
-        $window.scrollTo(0,0);
+    var elevator = null;
+
+    $scope.initElevator = function() {
+        elevator = new Elevator({
+            element: document.querySelector('.elevator-button'),
+            duration: 500 // milliseconds
+        });
     };
 
     var mobileNavShowing = false;
-    $scope.toggleMobileNav = function () {
+    $scope.toggleMobileNav = function() {
         mobileNavShowing = !mobileNavShowing;
         $scope.mobileNavShowing = mobileNavShowing;
     };
@@ -89,74 +96,77 @@ var app = angular.module('portfolio', [
     // NOTE: "cache" attribute is to prevent images from caching in the
     // browser (for the sake of the demo).
     $scope.imageLocations = [
-        ( "assets/img/lovrnet-logo.png" ), // 0
-        ( "assets/img/lovrnet1.jpg" ), // 1
-        ( "assets/img/lovrnet2.jpg" ), // 2
-        ( "assets/img/lovrnet3.jpg" ), // 3
-        ( "assets/img/lovrnet_flow1.jpg" ), // 4
-        ( "assets/img/lovrnet_flow2.jpg" ), // 5
-        ( "assets/img/asortly-logo.png" ), // 6
-        ( "assets/img/asortly1.jpg" ), // 7
-        ( "assets/img/asortly2.jpg" ), // 8
-        ( "assets/img/asortly3.jpg" ), // 9
-        ( "assets/img/asortly4.jpg" ), // 10
-        ( "assets/img/clip-logo.png" ), // 11
-        ( "assets/img/clip1.jpg" ), // 12
-        ( "assets/img/clip2.jpg" ), // 13
-        ( "assets/img/clip3.jpg" ), // 14
-        ( "assets/img/sleeknotion-logo.png" ), // 15
-        ( "assets/img/sleeknotion1.jpg" ), // 16
-        ( "assets/img/sleeknotion2.jpg" ), // 17
-        ( "assets/img/sleeknotion3.jpg" ), // 18
-        ( "assets/img/sleeknotion4.jpg" ), // 19
-        ( "assets/img/sleeknotion5.jpg" ), // 20
-        ( "assets/img/sleeknotion6.jpg" ), // 21
-        ( "assets/img/clip4.jpg" ), // 22
-        ( "assets/img/clip5.jpg" ), // 23
-        ( "assets/img/clip6.jpg" ), // 24
-        ( "assets/img/lovrnet4.jpg" ), // 25
-        ( "assets/img/lovrnet5.jpg" ), // 26
-        ( "assets/img/lovrnet6.jpg" ), // 27
-        ( "assets/img/lovrnet7.jpg" ), // 28
-        ( "assets/img/lovrnet8.jpg" ), // 29
-        ( "assets/img/lovrnet9.jpg" ), // 30
-        ( "assets/img/lovrnet10.jpg" ), // 31
-        ( "assets/img/lovrnet11.jpg" ), // 32
-        ( "assets/img/lovrnet12.jpg" ) // 33
+        ("assets/img/lovrnet-logo.png"), // 0
+        ("assets/img/lovrnet1.jpg"), // 1
+        ("assets/img/lovrnet2.jpg"), // 2
+        ("assets/img/lovrnet3.jpg"), // 3
+        ("assets/img/lovrnet_flow1.jpg"), // 4
+        ("assets/img/lovrnet_flow2.jpg"), // 5
+        ("assets/img/asortly-logo.png"), // 6
+        ("assets/img/asortly1.jpg"), // 7
+        ("assets/img/asortly2.jpg"), // 8
+        ("assets/img/asortly3.jpg"), // 9
+        ("assets/img/asortly4.jpg"), // 10
+        ("assets/img/clip-logo.png"), // 11
+        ("assets/img/clip1.jpg"), // 12
+        ("assets/img/clip2.jpg"), // 13
+        ("assets/img/clip3.jpg"), // 14
+        ("assets/img/sleeknotion-logo.png"), // 15
+        ("assets/img/sleeknotion1.jpg"), // 16
+        ("assets/img/sleeknotion2.jpg"), // 17
+        ("assets/img/sleeknotion3.jpg"), // 18
+        ("assets/img/sleeknotion4.jpg"), // 19
+        ("assets/img/sleeknotion5.jpg"), // 20
+        ("assets/img/sleeknotion6.jpg"), // 21
+        ("assets/img/clip4.jpg"), // 22
+        ("assets/img/clip5.jpg"), // 23
+        ("assets/img/clip6.jpg"), // 24
+        ("assets/img/lovrnet4.jpg"), // 25
+        ("assets/img/lovrnet5.jpg"), // 26
+        ("assets/img/lolz1.jpg"), //27
+        ("assets/img/lolz2.jpg"),//28
+        ("assets/img/lolz3.jpg")//29
+        //("assets/img/lovrnet6.jpg"), // 27
+        //("assets/img/lovrnet7.jpg"), // 28
+        //("assets/img/lovrnet8.jpg"), // 29
+        //("assets/img/lovrnet9.jpg"), // 30
+        //("assets/img/lovrnet10.jpg"), // 31
+        //("assets/img/lovrnet11.jpg"), // 32
+        //("assets/img/lovrnet12.jpg") // 33
     ];
 
     // Preload the images; then, update display when returned.
-    setTimeout(function(){ 
-preloader.preloadImages( $scope.imageLocations ).then(
-        function handleResolve( imageLocations ) {
+    setTimeout(function() {
+        preloader.preloadImages($scope.imageLocations).then(
+            function handleResolve(imageLocations) {
 
-            // Loading was successful.
-            $scope.isLoading = false;
-            $scope.isSuccessful = true;
+                // Loading was successful.
+                $scope.isLoading = false;
+                $scope.isSuccessful = true;
 
-            console.info( "Preload Successful" );
+                console.info("Preload Successful");
 
-        },
-        function handleReject( imageLocation ) {
+            },
+            function handleReject(imageLocation) {
 
-            // Loading failed on at least one image.
-            $scope.isLoading = false;
-            $scope.isSuccessful = false;
+                // Loading failed on at least one image.
+                $scope.isLoading = false;
+                $scope.isSuccessful = false;
 
-            console.error( "Image Failed", imageLocation );
-            console.info( "Preload Failure" );
+                console.error("Image Failed", imageLocation);
+                console.info("Preload Failure");
 
-        },
-        function handleNotify( event ) {
+            },
+            function handleNotify(event) {
 
-            $scope.percentLoaded = event.percent;
+                $scope.percentLoaded = event.percent;
 
-            console.info( "Percent loaded:", event.percent );
+                console.info("Percent loaded:", event.percent);
 
-        }
-    );
-     }, 100);
-    
+            }
+        );
+    }, 100);
+
 })
 
 
@@ -170,22 +180,29 @@ preloader.preloadImages( $scope.imageLocations ).then(
         title: "Lions LOVRNET",
         responsibilities: "UX / Visual Design / Front-End Development / Project Management",
         template: "project-lovrnet"
-    }, {
+    },  {
         number: 2,
+        cssclass: "lolz-border",
+        logo: "assets/img/lolz-logo.png",
+        title: "lolz",
+        responsibilities: "UX / Visual Design / Front-End Dev / Back-End Dev",
+        template: "project-lolz"
+    }, {
+        number: 3,
         cssclass: "clip-border",
         logo: "assets/img/clip-logo.png",
         title: "Clip",
         responsibilities: "UX / Visual Design",
         template: "project-clip"
     }, {
-        number: 3,
+        number: 4,
         cssclass: "asortly-border",
         logo: "assets/img/asortly-logo.png",
         title: "Asortly",
         responsibilities: "UX / Visual Design / Front-End Development",
         template: "project-asortly"
     }, {
-        number: 4,
+        number: 5,
         cssclass: "sleeknotion-border",
         logo: "assets/img/sleeknotion-logo.png",
         title: "Sleek Notion",
@@ -213,17 +230,17 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
 
 
-        // -------------------------------------------------- //
-        // -------------------------------------------------- //
+// -------------------------------------------------- //
+// -------------------------------------------------- //
 
 
 // I provide a utility class for preloading image objects.
 .factory(
     "preloader",
-    function( $q, $rootScope ) {
+    function($q, $rootScope) {
 
         // I manage the preloading of image objects. Accepts an array of image URLs.
-        function Preloader( imageLocations ) {
+        function Preloader(imageLocations) {
 
             // I am the image SRC values to preload.
             this.imageLocations = imageLocations;
@@ -260,11 +277,11 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
         // I reload the given images [Array] and return a promise. The promise
         // will be resolved with the array of image locations.
-        Preloader.preloadImages = function( imageLocations ) {
+        Preloader.preloadImages = function(imageLocations) {
 
-            var preloader = new Preloader( imageLocations );
+            var preloader = new Preloader(imageLocations);
 
-            return( preloader.load() );
+            return (preloader.load());
 
         };
 
@@ -288,7 +305,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
             // I determine if the preloader has started loading images yet.
             isInitiated: function isInitiated() {
 
-                return( this.state !== this.states.PENDING );
+                return (this.state !== this.states.PENDING);
 
             },
 
@@ -296,7 +313,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
             // I determine if the preloader has failed to load all of the images.
             isRejected: function isRejected() {
 
-                return( this.state === this.states.REJECTED );
+                return (this.state === this.states.REJECTED);
 
             },
 
@@ -304,7 +321,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
             // I determine if the preloader has successfully loaded all of the images.
             isResolved: function isResolved() {
 
-                return( this.state === this.states.RESOLVED );
+                return (this.state === this.states.RESOLVED);
 
             },
 
@@ -313,22 +330,22 @@ preloader.preloadImages( $scope.imageLocations ).then(
             load: function load() {
 
                 // If the images are already loading, return the existing promise.
-                if ( this.isInitiated() ) {
+                if (this.isInitiated()) {
 
-                    return( this.promise );
+                    return (this.promise);
 
                 }
 
                 this.state = this.states.LOADING;
 
-                for ( var i = 0 ; i < this.imageCount ; i++ ) {
+                for (var i = 0; i < this.imageCount; i++) {
 
-                    this.loadImageLocation( this.imageLocations[ i ] );
+                    this.loadImageLocation(this.imageLocations[i]);
 
                 }
 
                 // Return the deferred promise for the load event.
-                return( this.promise );
+                return (this.promise);
 
             },
 
@@ -339,12 +356,12 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
 
             // I handle the load-failure of the given image location.
-            handleImageError: function handleImageError( imageLocation ) {
+            handleImageError: function handleImageError(imageLocation) {
 
                 this.errorCount++;
 
                 // If the preload action has already failed, ignore further action.
-                if ( this.isRejected() ) {
+                if (this.isRejected()) {
 
                     return;
 
@@ -352,18 +369,18 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
                 this.state = this.states.REJECTED;
 
-                this.deferred.reject( imageLocation );
+                this.deferred.reject(imageLocation);
 
             },
 
 
             // I handle the load-success of the given image location.
-            handleImageLoad: function handleImageLoad( imageLocation ) {
+            handleImageLoad: function handleImageLoad(imageLocation) {
 
                 this.loadCount++;
 
                 // If the preload action has already failed, ignore further action.
-                if ( this.isRejected() ) {
+                if (this.isRejected()) {
 
                     return;
 
@@ -373,17 +390,17 @@ preloader.preloadImages( $scope.imageLocations ).then(
                 // than Resolving the deferred - you can call notify many times
                 // before the ultimate resolution (or rejection) of the deferred.
                 this.deferred.notify({
-                    percent: Math.ceil( this.loadCount / this.imageCount * 100 ),
+                    percent: Math.ceil(this.loadCount / this.imageCount * 100),
                     imageLocation: imageLocation
                 });
 
                 // If all of the images have loaded, we can resolve the deferred
                 // value that we returned to the calling context.
-                if ( this.loadCount === this.imageCount ) {
+                if (this.loadCount === this.imageCount) {
 
                     this.state = this.states.RESOLVED;
 
-                    this.deferred.resolve( this.imageLocations );
+                    this.deferred.resolve(this.imageLocations);
 
                 }
 
@@ -394,7 +411,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
             // events back into the preloader instance.
             // --
             // NOTE: The load/error events trigger a $digest.
-            loadImageLocation: function loadImageLocation( imageLocation ) {
+            loadImageLocation: function loadImageLocation(imageLocation) {
 
                 var preloader = this;
 
@@ -402,16 +419,16 @@ preloader.preloadImages( $scope.imageLocations ).then(
                 // we bind the event handlers BEFORE we actually set the image
                 // source. Failure to do so will prevent the events from proper
                 // triggering in some browsers.
-                var image = $( new Image() )
+                var image = $(new Image())
                     .load(
-                        function( event ) {
+                        function(event) {
 
                             // Since the load event is asynchronous, we have to
                             // tell AngularJS that something changed.
                             $rootScope.$apply(
                                 function() {
 
-                                    preloader.handleImageLoad( event.target.src );
+                                    preloader.handleImageLoad(event.target.src);
 
                                     // Clean up object reference to help with the
                                     // garbage collection in the closure.
@@ -423,14 +440,14 @@ preloader.preloadImages( $scope.imageLocations ).then(
                         }
                     )
                     .error(
-                        function( event ) {
+                        function(event) {
 
                             // Since the load event is asynchronous, we have to
                             // tell AngularJS that something changed.
                             $rootScope.$apply(
                                 function() {
 
-                                    preloader.handleImageError( event.target.src );
+                                    preloader.handleImageError(event.target.src);
 
                                     // Clean up object reference to help with the
                                     // garbage collection in the closure.
@@ -441,8 +458,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
                         }
                     )
-                    .prop( "src", imageLocation )
-                ;
+                    .prop("src", imageLocation);
 
             }
 
@@ -450,7 +466,7 @@ preloader.preloadImages( $scope.imageLocations ).then(
 
 
         // Return the factory instance.
-        return( Preloader );
+        return (Preloader);
 
     }
 );

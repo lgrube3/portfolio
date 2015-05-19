@@ -2,7 +2,7 @@
 <html ng-app="portfolio" ng-controller="AppCtrl">
 
 <head>
-    <title>Lucas Gruber Designer | Project 1</title>
+    <title>Lucas Gruber Designer | Portfolio</title>
     <!-- social media tags -->
     <meta name="twitter:card" content="Lucas Gruber">
     <meta name="twitter:site" content="@lukegruber">
@@ -35,7 +35,7 @@
 
 <body id="top">
     <div class="preloader-background" ng-show="isLoading"></div>
-    <div class="loading-icon" ng-class="{start: isLoading, end: !isLoading}"></div>
+    <div class="loading-icon start-complete" ng-class="{start: isLoading, end: !isLoading}"></div>
     <div class="header" ng-class="{isLoaded: !isLoading}">
         <div class="header-container">
             <div class="headshot"></div>
@@ -75,7 +75,7 @@
             <span><i class="fa fa-angle-left"></i></span>
         </div>
         <div class="divCell cell2">
-            <div class="container change" ng-repeat="project in projects | filter:index">
+            <div class="container change project-animation" ng-repeat="project in projects | filter:index">
                 <div class="project-number">Project {{project.number}}</div>
                 <div class="project-title">
                     <img ng-src="{{project.logo}}" />
@@ -84,7 +84,7 @@
                 </div>
                 <div class="project-description">
                     <div class="from-template" ng-include="'assets/views/' + project.template + '.html'"></div>
-                    <div class="backTopButton" ng-click="backToTop()">
+                    <div class="backTopButton elevator-button" ng-init="initElevator()">
                         <span class="fa fa-long-arrow-up"></span>
                         <span class="backTopButton-text">Back to top</span>
                     </div>
@@ -100,10 +100,6 @@
                 </div>
                 <div class="project-description">
                     <div class="from-template" ng-include="'assets/views/' + project.template + '.html'"></div>
-                    <div class="backTopButton" ng-click="backToTop()">
-                        <span class="fa fa-long-arrow-up"></span>
-                        <span class="backTopButton-text">Back to top</span>
-                    </div>
                     <!-- <div class="middle-gradient"></div> -->
                 </div>
             </div>

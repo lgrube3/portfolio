@@ -19,6 +19,7 @@
 @mainBackgroundInvis: rgba(46, 53, 79, 0); //#2e354f
 @headerBackground: #212121;
 @lionsYellow: #FFCF06;
+@lolzBlue: #7C4DFF;
 @asortlyBlue: #5F97FB;
 @clipRed: rgb(245, 98, 106);
 @sleekNotionBlue: #0074FF;
@@ -93,24 +94,13 @@ body {
     margin-left: -60px;
     border-radius: 60px;
     text-align: center;
-    background: black;
+    background: #212121;
     z-index: 9998;
     opacity: 0;
     -webkit-transition: opacity;
     -moz-transition: opacity;
     -o-transition: opacity;
     transition: opacity;
-    div {
-        background: @headshot;
-        background-size: cover;
-        width: 50px;
-        height: 50px;
-        border-radius: 25px;
-        margin: -25px -25px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-    }
 }
 
 .start {
@@ -119,6 +109,7 @@ body {
 
 .end {
     opacity: 0;
+    height: 0;
 }
 
 .loading-icon.start {
@@ -136,21 +127,6 @@ body {
     animation-timing-function: cubic-bezier(.19, .54, .73, .92);
 }
 
-.loading-icon.start div {
-    -webkit-animation-name: headshot-start;
-    -webkit-animation-duration: 3s;
-    -webkit-animation-timing-function: cubic-bezier(.19, .54, .73, .92);
-    -moz-animation-name: headshot-start;
-    -moz-animation-duration: 3s;
-    -moz-animation-timing-function: cubic-bezier(.19, .54, .73, .92);
-    -o-animation-name: headshot-start;
-    -o-animation-duration: 3s;
-    -o-animation-timing-function: cubic-bezier(.19, .54, .73, .92);
-    animation-name: headshot-start;
-    animation-duration: 3s;
-    animation-timing-function: cubic-bezier(.19, .54, .73, .92);
-}
-
 .loading-icon.end {
     -webkit-animation-name: end;
     -webkit-animation-duration: .3s;
@@ -162,21 +138,6 @@ body {
     -o-animation-duration: .3s;
     -o-animation-timing-function: cubic-bezier(.66, .03, .86, .6);
     animation-name: end;
-    animation-duration: .3s;
-    animation-timing-function: cubic-bezier(.66, .03, .86, .6);
-}
-
-.loading-icon.end div {
-    -webkit-animation-name: headshot-end;
-    -webkit-animation-duration: .3s;
-    -webkit-animation-timing-function: cubic-bezier(.66, .03, .86, .6);
-    -moz-animation-name: headshot-end;
-    -moz-animation-duration: .3s;
-    -moz-animation-timing-function: cubic-bezier(.66, .03, .86, .6);
-    -o-animation-name: headshot-end;
-    -o-animation-duration: .3s;
-    -o-animation-timing-function: cubic-bezier(.66, .03, .86, .6);
-    animation-name: headshot-end;
     animation-duration: .3s;
     animation-timing-function: cubic-bezier(.66, .03, .86, .6);
 }
@@ -375,6 +336,10 @@ body {
     border-top: 3px solid @lionsYellow;
 }
 
+.lolz-border {
+    border-top: 3px solid @lolzBlue;
+}
+
 .asortly-border {
     border-top: 3px solid @asortlyBlue;
 }
@@ -410,10 +375,11 @@ body {
     position: relative;
     text-align: center;
     display: none;
+    font-size:175%;
     span {
-        opacity: .18;
+        opacity: .24;
         top: 41%;
-        position: fixed;
+        position: absolute;
         -webkit-transition: all .3s ease;
         -moz-transition: all .3s ease;
         -o-transition: all .3s ease;
@@ -449,7 +415,7 @@ body {
 //}
 .cell2 {
     max-width: 100%;
-    padding: 0 1.5em;
+    margin: 0 1.5em;
     position: relative;
 }
 
@@ -638,7 +604,7 @@ body {
     }
     .project-number {
         position: absolute;
-        right: 1.5em;
+        right: 0;
         top: 0;
         font-size: .9em;
         font-weight: 700;
@@ -649,26 +615,26 @@ body {
     }
     .project-title {
         padding-top: 2.74em;
-        margin-bottom: 2.3em;
+        margin-bottom: 2.1em;
         img {
-            width: 58px;
+            width: 54px;
             float: left;
             margin-top: 1px;
             margin-right: 8px;
         }
         h2 {
             margin: 0;
-            font-size: 1.8em;
+            font-size: 1.7em;
             margin-bottom: -7px;
         }
         span {
-            font-size: .8em;
+            font-size: .78em;
             font-weight: 100;
             color: rgba(255, 255, 255, .46);
             margin-left: 1px;
             line-height: 1.4;
             display: block;
-            margin-top: 5px;
+            margin-top: 7px;
         }
     }
     .project-description {
@@ -689,7 +655,7 @@ body {
         }
         h3 {
             text-transform: uppercase;
-            font-size: 160%;
+            font-size: 120%;
         }
         .less-important {
             font-size: .9em;
@@ -854,6 +820,39 @@ body {
         opacity: 1;
         //margin-top: 0px;
     }
+}
+
+// ===================
+//
+// Animation for Switching Between Project
+//
+// ===================
+.project-animation {
+    position: absolute;
+}
+
+.project-animation.ng-enter {
+    -webkit-transition: .5s ease all;
+    /* Chrome */
+    
+    transition: .5s ease all;
+    opacity: 0;
+}
+
+.project-animation.ng-enter.project-animation.ng-enter-active {
+    opacity: 1;
+}
+
+.project-animation.ng-leave {
+    -webkit-transition: .5s ease all;
+    /* Chrome */
+    
+    transition: .5s ease all;
+    opacity: 1;
+}
+
+.project-animation.ng-leave.project-animation.ng-leave-active {
+    opacity: 0;
 }
 
 // ====================
@@ -1137,7 +1136,7 @@ body {
 
 @media only screen and (min-height: 450px) {
     .header .header-container .mobile-nav div a.menu-item {
-        font-size: 2.6em;
+        font-size: 2.1em;
     }
 }
 
@@ -1147,6 +1146,7 @@ body {
         //position: absolute;
     }
     .lovrnet-border,
+    .lolz-border,
     .asortly-border,
     .clip-border,
     .sleeknotion-border {
@@ -1296,7 +1296,12 @@ body {
         }
         .project-description {
             padding-top: 3em;
-            p, li {
+            h3 {
+                text-transform: uppercase;
+                font-size: 160%;
+            }
+            p,
+            li {
                 font-size: 1.1em;
                 line-height: 1.6;
             }
