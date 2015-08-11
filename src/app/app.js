@@ -21,12 +21,15 @@ var app = angular.module('portfolio', [
 
 
 
-.run(function run() {})
+.run(function run() {
+
+
+})
 
 
 
 
-.controller('AppCtrl', function AppCtrl($scope, $location, $anchorScroll, $window, Data, preloader) {
+.controller('AppCtrl', function AppCtrl($scope, $location, $anchorScroll, $window, Data, preloader, $timeout) {
 
     $scope.projects = Data.get();
 
@@ -34,6 +37,62 @@ var app = angular.module('portfolio', [
 
     $scope.atBeginning = true;
     $scope.atEnd = false;
+
+    $scope.projectsVisible = false;
+    $scope.hideOverlay = false;
+    $scope.hideIntroBody = false;
+    $scope.fixHeader = false;
+    $scope.hideOverflow = true;
+    $scope.showProjects = function() {
+        $scope.projectsVisible = true;
+        $scope.hideOverflow = false;
+
+        $timeout(function() {
+            $scope.hideOverlay = true;
+
+        }, 1300);
+        $timeout(function() {
+            $scope.hideIntroBody = true;
+            $scope.fixHeader = true;
+        }, 600);
+    };
+
+    $scope.time = getTime();
+
+    function getTime() {
+        var date = new Date();
+        var current_hour = date.getHours();
+        //alert(current_hour);
+        if (current_hour >= 0 && current_hour < 12) {
+            return 0;
+        } else if (current_hour >= 12 && current_hour < 18) {
+            return 1;
+        } else if (current_hour >= 18 && current_hour < 24) {
+            return 2;
+        }
+    }
+    //on run determine if $scope.time === 0,1, or 2
+    //$scope.time = 1;
+
+    $scope.backgroundImage = function(timeOfDay) {
+        if (timeOfDay === 0) {
+            return 'morning-bg';
+        } else if (timeOfDay === 1) {
+            return 'afternoon-bg';
+        } else if (timeOfDay === 2) {
+            return 'evening-bg';
+        }
+    };
+
+    $scope.greetingCopy = function(timeOfDay) {
+        if (timeOfDay === 0) {
+            return 'Good Morning';
+        } else if (timeOfDay === 1) {
+            return 'Good Afternoon';
+        } else if (timeOfDay === 2) {
+            return 'Good Evening';
+        }
+    };
 
     $(".loading-icon.start-complete").on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd',
         function() {
@@ -48,7 +107,42 @@ var app = angular.module('portfolio', [
             $scope.index = $scope.index - 1;
         }
         checkForBeginningOrEnd();
+        /*$timeout(function() {
+            runScroll();
+        }, 500);*/
+        scrollTo(document.body, 0, 500);
+        scrollTo(document.documentElement, 0, 300);
         //$scope.direction = direction;
+    };
+
+    function scrollTo(element, to, duration) {
+        var start = element.scrollTop,
+            change = to - start,
+            currentTime = 0,
+            increment = 20;
+
+        var animateScroll = function() {
+            currentTime += increment;
+            var val = Math.easeInOutQuad(currentTime, start, change, duration);
+            element.scrollTop = val;
+            if (currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        };
+        animateScroll();
+    }
+
+    //t = current time
+    //b = start value
+    //c = change in value
+    //d = duration
+    Math.easeInOutQuad = function(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * t * t + b;
+        }
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
     };
 
     var checkForBeginningOrEnd = function() {
@@ -123,9 +217,12 @@ var app = angular.module('portfolio', [
         ("assets/img/clip6.jpg"), // 24
         ("assets/img/lovrnet4.jpg"), // 25
         ("assets/img/lovrnet5.jpg"), // 26
-        ("assets/img/lolz1.jpg"), //27
-        ("assets/img/lolz2.jpg"),//28
-        ("assets/img/lolz3.jpg")//29
+        //("assets/img/lolz1.jpg"), //27
+        //("assets/img/lolz2.jpg"), //28
+        //("assets/img/lolz3.jpg"), //29
+        ("assets/img/lolzandroid-portfolio_ss1.jpg"), //27
+        ("assets/img/lolzandroid-portfolio_ss2.jpg"), //28
+        ("assets/img/lolzandroid-portfolio_ss3.jpg") //29
         //("assets/img/lovrnet6.jpg"), // 27
         //("assets/img/lovrnet7.jpg"), // 28
         //("assets/img/lovrnet8.jpg"), // 29
@@ -180,27 +277,27 @@ var app = angular.module('portfolio', [
         title: "Lions LOVRNET",
         responsibilities: "UX / Visual Design / Front-End Development / Project Management",
         template: "project-lovrnet"
-    },  {
-        number: 2,
-        cssclass: "lolz-border",
-        logo: "assets/img/lolz-logo.png",
-        title: "lolz",
-        responsibilities: "UX / Visual Design / Front-End Dev / Back-End Dev",
-        template: "project-lolz"
     }, {
-        number: 3,
+        number: 2,
         cssclass: "clip-border",
         logo: "assets/img/clip-logo.png",
         title: "Clip",
         responsibilities: "UX / Visual Design",
         template: "project-clip"
     }, {
-        number: 4,
+        number: 3,
         cssclass: "asortly-border",
         logo: "assets/img/asortly-logo.png",
         title: "Asortly",
         responsibilities: "UX / Visual Design / Front-End Development",
         template: "project-asortly"
+    }, {
+        number: 4,
+        cssclass: "lolz-border",
+        logo: "assets/img/lolz-android-logo.png",
+        title: "Lolz",
+        responsibilities: "UX / Visual Design / Front-End Dev / Back-End Dev",
+        template: "project-lolz-android"
     }, {
         number: 5,
         cssclass: "sleeknotion-border",

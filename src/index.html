@@ -36,29 +36,41 @@
 <body id="top">
     <div class="preloader-background" ng-show="isLoading"></div>
     <div class="loading-icon start-complete" ng-class="{start: isLoading, end: !isLoading}"></div>
-    <div class="header" ng-class="{isLoaded: !isLoading}">
-        <div class="header-container">
-            <div class="headshot"></div>
-            <span class="me"><strong>Lucas Gruber</strong><br/><span>Designer</span></span>
-            <div class="header-nav">
-                <!--<a target="_blank" href="/blog">Blog</a>-->
-                <a class="resume-menu-item" target="_blank" href="/assets/resume/LG_Resume_Mar-2015.pdf" title="View Resume"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Resume</a>
-                <a class="resume-menu-item" target="_blank" href="http://sleeknotion.lucasgruber.com/blog" title="View Blog"><i class="fa fa-book"></i>&nbsp;&nbsp;Blog</a>
-                <a class="github-menu-item" target="_blank" href="https://github.com/lgrube3" title="View GitHub"><i class="fa fa-github"></i></a>
-                <a class="linkedin-menu-item" target="_blank" href="https://www.linkedin.com/pub/lucas-gruber/21/133/586" title="View LinkedIn"><i class="fa fa-linkedin"></i></a>
-                <a class="facebook-menu-item" target="_blank" href="https://www.facebook.com/lucasgruber" title="View Facebook"><i class="fa fa-facebook"></i></a>
+    <div class="projects-overlay" ng-class="{fadeOut:projectsVisible, hidden:hideOverlay}"></div>
+    <div class="intro" ng-class="{slideDown:projectsVisible}">
+        <div class="header" ng-class="{isLoaded: !isLoading, fixElement: fixHeader}">
+            <div class="header-container">
+                <div class="headshot"></div>
+                <span class="me"><strong>Lucas Gruber</strong><br/><span>Designer</span></span>
+                <div class="header-nav">
+                    <!--<a target="_blank" href="/blog">Blog</a>-->
+                    <a class="resume-menu-item" target="_blank" href="/assets/resume/LG_Resume.pdf" title="View Resume"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;Resume</a>
+                    <a class="resume-menu-item" target="_blank" href="http://sleeknotion.lucasgruber.com/blog" title="View Blog"><i class="fa fa-book"></i>&nbsp;&nbsp;Blog</a>
+                    <a class="github-menu-item" target="_blank" href="https://github.com/lgrube3" title="View GitHub"><i class="fa fa-github"></i></a>
+                    <a class="linkedin-menu-item" target="_blank" href="https://www.linkedin.com/pub/lucas-gruber/21/133/586" title="View LinkedIn"><i class="fa fa-linkedin"></i></a>
+                    <a class="facebook-menu-item" target="_blank" href="https://www.facebook.com/lucasgruber" title="View Facebook"><i class="fa fa-facebook"></i></a>
+                </div>
+                <a class="mobile-nav-toggle" ng-class="{active:mobileNavShowing}" ng-click="toggleMobileNav()" href="#"><span></span></a>
+                <div class="mobile-nav" ng-class="{active:mobileNavShowing}">
+                    <!--div><a class="menu-item" href="/blog" >Blog</a></div>-->
+                    <div><a class="menu-item" target="_blank" href="/assets/resume/LG_Resume.pdf">Resume</a></div>
+                    <div><a class="menu-item" target="_blank" href="http://sleeknotion.lucasgruber.com/blog">Blog</a></div>
+                    <div><a class="menu-item" target="_blank" href="https://github.com/lgrube3">GitHub</a></div>
+                    <div><a class="menu-item" target="_blank" href="https://www.linkedin.com/pub/lucas-gruber/21/133/586">LinkedIn</a></div>
+                    <div><a class="menu-item" target="_blank" href="https://www.facebook.com/lucasgruber">Facebook</a></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
-            <a class="mobile-nav-toggle" ng-class="{active:mobileNavShowing}" ng-click="toggleMobileNav()" href="#"><span></span></a>
-            <div class="mobile-nav" ng-class="{active:mobileNavShowing}">
-                <!--div><a class="menu-item" href="/blog" >Blog</a></div>-->
-                <div><a class="menu-item" target="_blank" href="/assets/resume/LG_Resume_Mar-2015.pdf">Resume</a></div>
-                <div><a class="menu-item" target="_blank" href="http://sleeknotion.lucasgruber.com/blog">Blog</a></div>
-                <div><a class="menu-item" target="_blank" href="https://github.com/lgrube3">GitHub</a></div>
-                <div><a class="menu-item" target="_blank" href="https://www.linkedin.com/pub/lucas-gruber/21/133/586">LinkedIn</a></div>
-                <div><a class="menu-item" target="_blank" href="https://www.facebook.com/lucasgruber">Facebook</a></div>
-                <div></div>
-                <div></div>
-                <div></div>
+        </div>
+        <div class="intro-body" ng-class="[backgroundImage(time),{hidden:hideIntroBody}]">
+            <div class="intro-body-container">
+                <div class="greeting">{{greetingCopy(time)}}</div>
+                <div class="about-me">I'm Lucas Gruber,
+                    <br/>Designer and Developer
+                    <br />From San Francisco</div>
+                <button class="view-work" ng-click="showProjects()">View Work<i class="fa fa-chevron-down"></i></button>
             </div>
         </div>
     </div>
@@ -74,7 +86,7 @@
         <div class="divCell cell1" ng-click="changeIndex('left')" ng-class="{done: atBeginning}">
             <span><i class="fa fa-angle-left"></i></span>
         </div>
-        <div class="divCell cell2">
+        <div class="divCell cell2" ng-class="{overflowHidden:hideOverflow}">
             <div class="container change project-animation" ng-repeat="project in projects | filter:index">
                 <div class="project-number">Project {{project.number}}</div>
                 <div class="project-title">
@@ -84,10 +96,13 @@
                 </div>
                 <div class="project-description">
                     <div class="from-template" ng-include="'assets/views/' + project.template + '.html'"></div>
-                    <div class="backTopButton elevator-button" ng-init="initElevator()">
+                    <p>
+                        <a class="change-project-anchor" ng-click="changeIndex('left')" ng-class="{done: atBeginning}">
+                            <i class="fa fa-angle-left"></i>&nbsp;&nbsp;Previous</a><a class="change-project-anchor" ng-click="changeIndex('right')" ng-class="{done: atEnd}">Next&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a></p>
+                    <!-- <div class="backTopButton elevator-button" ng-init="initElevator()">
                         <span class="fa fa-long-arrow-up"></span>
                         <span class="backTopButton-text">Back to top</span>
-                    </div>
+                    </div> -->
                     <!-- <div class="middle-gradient"></div> -->
                 </div>
             </div>
